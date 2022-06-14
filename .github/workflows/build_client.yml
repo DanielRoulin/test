@@ -1,0 +1,38 @@
+name: Build client
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  buildForAllSupportedPlatforms:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
+          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneLinux64 # Build a Linux 64-bit standalone.
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Compress build
+        run: zip -r Client-${{ matrix.targetPlatform }} README.md
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: https://uploads.github.com/repos/${{ GITHUB_REPOSITORY }}releases/1/assets{?name,label}",
+          asset_path: ./Client-${{ matrix.targetPlatform }}.zip
+          asset_name: Client-${{ matrix.targetPlatform }}.zip
+          asset_content_type: application/zip
