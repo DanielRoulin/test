@@ -32,7 +32,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: https://uploads.github.com/repos/DanielRoulin/test/releases/69382800/assets
+          upload_url: https://uploads.github.com/repos/DanielRoulin/test/releases/69382800/assets{?name,label}
           asset_path: ./build/Client-${{ matrix.targetPlatform }}.zip
           asset_name: Client-${{ matrix.targetPlatform }}.zip
           asset_content_type: application/zip
