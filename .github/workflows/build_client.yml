@@ -27,7 +27,7 @@ jobs:
         run: cd build && zip -r Client-${{ matrix.targetPlatform }}.zip ${{ matrix.targetPlatform }} && cd ..
 
       - name: Debug
-        run: tree
+        run: tree && echo ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Release Asset
         id: upload-release-asset 
