@@ -24,7 +24,7 @@ jobs:
           lfs: true
 
       - name: Compress build
-        run: zip -r Client-${{ matrix.targetPlatform }} README.md
+        run: cd build && zip -r Client-${{ matrix.targetPlatform }}.zip ${{ matrix.targetPlatform }} && cd ..
 
       - name: Upload Release Asset
         id: upload-release-asset 
@@ -32,7 +32,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: https://uploads.github.com/repos/DanielRoulin/test/releases/69382800/assets{?name,label}
-          asset_path: ./Client-${{ matrix.targetPlatform }}.zip
+          upload_url: https://uploads.github.com/repos/DanielRoulin/Waypoint/releases/69381973/assets{?name,label}
+          asset_path: ./build/Client-${{ matrix.targetPlatform }}.zip
           asset_name: Client-${{ matrix.targetPlatform }}.zip
           asset_content_type: application/zip
